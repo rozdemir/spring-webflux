@@ -37,4 +37,9 @@ public class PersonController {
         personService.delete(id);
     }
 
+    @PutMapping(value = "/{id}")
+    public Mono<Person> update(@PathVariable(value = "id") String  id, @RequestBody @Valid Person person) {
+        return personService.update(id,person);
+    }
+
 }

@@ -2,6 +2,8 @@ package com.coreiron.webflux.service;
 
 import com.coreiron.webflux.data.repository.BaseRepository;
 import org.reactivestreams.Publisher;
+import org.springframework.boot.context.config.ResourceNotFoundException;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -32,6 +34,15 @@ public abstract class AbstractService<Entity,PK> {
     public Mono<Entity> getById(PK pk)
     {
         return getRepository().findById(pk);
+    }
+
+    public Mono<Entity> getEntity(PK pk)
+    {
+        Mono<Entity> entityMono = getRepository().findById(pk);
+        if(entityMono == null) {
+            throw new RuntimeException();
+        } else
+            return entityMono;
     }
 
     public  void delete(PK pk){
